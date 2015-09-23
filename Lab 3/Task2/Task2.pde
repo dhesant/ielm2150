@@ -13,22 +13,18 @@
   
 */
 
-// Window Constants
-int X_LEN = 1920;
-int Y_LEN = 1080;
-
 // Define gradient colors
 color bm, b1, b2;
 
 void setup() {
-  size(X_LEN, Y_LEN); // Set window size to window constants
+  size(1440, 900); // Set window size to window constants
 
   b1 = color(#d0e9fb); // Light blue
   b2 = color(#084977); // Dark blue
 
   bm = lerpColor(b1, b2, 0.5); // Automatically get the middle color
   
-  frame.setResizable(true); // Enable window resizing
+  surface.setResizable(true); // Enable window resizing
 }
 
 void draw() {
@@ -54,4 +50,3 @@ void setGradient(int x, int y, float w, float h, color c1, color c2) {
     line(i, y, i, y+h);
   }
 }
-

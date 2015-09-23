@@ -7,10 +7,6 @@
   
 */
 
-// Window Constants
-int X_LEN = 1440;
-int Y_LEN = 900;
-
 // Define colors
 color o, e;
 
@@ -20,7 +16,7 @@ int dia2 = 150;
 int diac = 100;
 
 void setup() {
-  size(X_LEN, Y_LEN); // Define screen size
+  size(1440, 900); // Define screen size
   e = color(#FA6900); // Set e to inner color
   o = color(#69D2E7); // Set o to outer color
 }

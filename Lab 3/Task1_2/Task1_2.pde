@@ -7,10 +7,6 @@
   
 */
 
-// Window Constants
-int X_LEN = 1440;
-int Y_LEN = 900;
-
 // Define color placeholders
 color f, b;
 
@@ -22,7 +18,7 @@ float[][] tri1 = new float[3][];
 float[][] tri2 = new float[3][];
 
 void setup() {
-  size(X_LEN, Y_LEN);
+  size(1440, 900);
   f = color(#36a4f1); // Blue foreground color
   b = color(#FFFFFF); // White background color
 }
