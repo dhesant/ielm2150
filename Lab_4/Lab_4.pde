@@ -4,8 +4,11 @@
   20146587
 
   Draw a world map using clocks to represent different cities and their current time.
+  Mouse over certain blocks to see a the name of the nearest major city.
   
-  Note: Does not support daylight savings time
+  Note: Does not support daylight savings time.
+  
+  IMPORTANT: This code was developed with Processing 3, compatibility with Processing 2 is untested.
   
 */
 
@@ -17,6 +20,14 @@ color[] g = new color[9];
 
 // Variable to hold current time zone
 int cur_tz = 8;
+
+// Major cities indexs
+int[] cit_key = { 112, 142, 153, 154, 176, 183, 227, 202, 244, 250, 275, 285, 300, 330, 359, 374, 408, 428, 
+                  448, 471, 474, 219, 360, 220, 209, 128, 342, 427, 286, 120, 171 };
+String[] cit_str = { "Anchorage", "Vancouver", "London", "Paris", "New York", "Rome", "Los Angeles", "Miami", 
+                    "New Dehli", "Tokyo", "Hong Kong", "Mexico City", "Mumbai", "Singapore", "Jakarta", "Rio De Janeiro", 
+                    "Johannesburg", "Buenos Aires", "Auckland", "Perth", "Sydney", "Beijing", "Bali", "Shanghai", "Madrid", 
+                    "Moscow", "Lima", "Santiago", "Bogota", "St. Johns", "Seattle" };
 
 void setup() {
   size(1450, 950);
@@ -31,11 +42,10 @@ void setup() {
   g[6] = g[2];
   g[7] = g[1];
   g[8] = g[0];
-
-  background(#FFFFFF); // Set background to white
 }
 
 void draw() {
+  background(#FFFFFF); // Set background to white
   // Load map input files from disk
   byte map[] = loadBytes("map");
   byte h_oset[] = loadBytes("h_oset");
@@ -59,6 +69,27 @@ void draw() {
       x++;
     }
   }
+  
+  int m_x, m_y; // Get mouse grid coordinates
+  m_x = mouseX/grid_size;
+  m_y = mouseY/grid_size;
+  
+  println(m_x + " " + m_y); // Debug print
+  
+  for (int i = 0; i < cit_key.length; i++) { // Search city index for match
+    if ((m_x+m_y*28) == cit_key[i]) {
+      printCity(cit_str[i], m_x, m_y);
+    }
+  }
+}
+
+void printCity(String city, int x, int y) {
+  textSize(32); // Setup font print
+  textAlign(RIGHT, TOP);
+  noStroke();
+  fill(g[0]);
+  
+  text(city, width-32, 32);  
 }
 
 void setHourFill(int h, int m) {
