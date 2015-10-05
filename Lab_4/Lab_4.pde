@@ -2,7 +2,10 @@
   IELM2150 Lab 4
   Dhesant Nakka
   20146587
+
+  Draw a world map using clocks to represent different cities and their current time.
   
+  Note: Does not support daylight savings time
   
 */
 
@@ -11,6 +14,9 @@ int grid_size = 50;
 
 // Initialize complex gradient setpoint holder 
 color[] g = new color[9];
+
+// Variable to hold current time zone
+int cur_tz = 8;
 
 void setup() {
   size(1450, 950);
@@ -47,7 +53,8 @@ void draw() {
     }  
     else {
       if (map[i] == 49) { // If map[i] = 1 (49 dec), draw clock using offsets from h_oset and m_oset
-        drawClock(x * grid_size + grid_size/2, y * grid_size + grid_size/2, (int)map(x, 0, 29, 0, 24));
+        //println(i + "  " + h_oset[i] + " " + m_oset[i]); // Debug print
+        drawClock(x * grid_size + grid_size/2, y * grid_size + grid_size/2, h_oset[i]-12, m_oset[i]);
       }
       x++;
     }
@@ -59,6 +66,8 @@ void setHourFill(int h, int m) {
   int i = (int)inter; // Extract interpolation interger
   inter -= i; // Extract interpolation decimal
   
+  //println(h + " " + i + " " + inter); // Debug print
+  
   color c = lerpColor(g[i], g[i+1], inter); // Automatically derive color and set it as fill
   fill(c);
   
@@ -67,7 +76,7 @@ void setHourFill(int h, int m) {
 
 void drawClock(int x, int y, int h_oset, int m_oset) {
   int m = minute()+m_oset;
-  int h = hour()+h_oset;
+  int h = hour()+h_oset-cur_tz;
   
   // Ensure inputs are in a valid range
   if (h < 0) {
@@ -90,7 +99,7 @@ void drawClock(int x, int y, int h_oset, int m_oset) {
   
   // Calculate angles for hour and minute hand
   float t_m = map(m, 0, 60, 0, PI*2);
-  float t_h = map(h+map(m, 0, 60, 0, 1), 0, 12, 0, PI*4); 
+  float t_h = map(h+map(m, 0, 60, 0, 1), 0, 24, 0, PI*4); 
 
   noStroke(); // Fill background using setHourFill function
   setHourFill(h, m);  
@@ -99,10 +108,10 @@ void drawClock(int x, int y, int h_oset, int m_oset) {
   noFill(); // Draw hour hand
   stroke(#FFFFFF);
   strokeWeight(4);
-  drawHand(x, y, 20, t_h);
+  drawHand(x, y, 15, t_h);
 
   strokeWeight(2); // Draw minute hand
-  drawHand(x, y, 15, t_m);
+  drawHand(x, y, 20, t_m);
   
   return;
 }
